@@ -1,0 +1,58 @@
+{
+  "name": "react-mobx-i18next",
+  "version": "0.0.1",
+  "description": "A tiny i18n utility for MobX + React (mobx-react-lite) that replaces react-mobx-i18n. Includes @Translatable decorator, withTranslatable HOC, and useTranslatable hook.",
+  "keywords": [
+    "mobx",
+    "mobx-react-lite",
+    "i18next",
+    "react-i18next",
+    "i18n",
+    "translation",
+    "decorator",
+    "HOC",
+    "hook"
+  ],
+  "license": "MIT",
+  "author": "wu.cyrus@gmail.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your/repo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your/repo/issues"
+  },
+  "homepage": "https://github.com/your/repo#readme",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.cjs"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "clean": "rimraf dist",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build && npm run typecheck"
+  },
+  "peerDependencies": {
+    "i18next": ">=23",
+    "mobx": ">=6",
+    "mobx-react-lite": ">=4",
+    "react": ">=17",
+    "react-dom": ">=17",
+    "react-i18next": ">=15"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "rimraf": "^6.0.0",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.0.0",
+    "typescript": "^5.5.0"
+  }
+}
