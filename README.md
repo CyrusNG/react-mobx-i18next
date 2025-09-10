@@ -1,20 +1,20 @@
-# mobx-i18next-lite
+# react-mobx-i18next
 
 使用 mobx + mobx-react-lite + i18next + react-i18next 完全替代 `react-mobx-i18n`。
 
 ## 安装
 
 ```bash
-npm i mobx-i18next-lite i18next react-i18next mobx mobx-react-lite
+npm i react-mobx-i18next i18next react-i18next mobx mobx-react-lite
 # or
-pnpm add mobx-i18next-lite i18next react-i18next mobx mobx-react-lite
+pnpm add react-mobx-i18next i18next react-i18next mobx mobx-react-lite
 ```
 
 ## Example
 ```javascript
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import { createI18n, I18nProvider, I18nStore, observer, withTranslatable } from 'mobx-i18next-lite'
+import { createI18n, I18nProvider, I18nStore, observer, withTranslatable } from 'react-mobx-i18next'
 import { makeAutoObservable } from 'mobx'
 
 // 1) 初始化 i18n
@@ -66,7 +66,7 @@ createRoot(document.getElementById('root')!).render(<App />)
 ## Hook Usage
 ```javascript
 import React from 'react'
-import { observer, useTranslatable } from 'mobx-i18next-lite'
+import { observer, useTranslatable } from 'react-mobx-i18next'
 
 const Hello = observer(() => {
   const { t } = useTranslatable('common')
@@ -79,7 +79,7 @@ const Hello = observer(() => {
 
 ```javascript
 import React from 'react'
-import { Translatable, observer } from 'mobx-i18next-lite'
+import { Translatable, observer } from 'react-mobx-i18next'
 
 @observer
 @Translatable('common')
