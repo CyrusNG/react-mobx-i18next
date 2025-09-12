@@ -6,7 +6,7 @@
 import { withTranslatable } from './withTranslatable'
 import type { NamespaceOption, TranslatableOptions } from '../types'
 
-export function Translatable(ns?: NamespaceOption, options?: TranslatableOptions): ClassDecorator {
+export function translatable(ns?: NamespaceOption, options?: TranslatableOptions): ClassDecorator {
   return function (Target: any): any {
     class WithTranslatable extends Target {
       render() {
