@@ -14,7 +14,7 @@ pnpm add react-mobx-i18next
 ```javascript
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import { createI18n, I18nProvider, I18nStore, observer, withTranslatable } from 'react-mobx-i18next'
+import { createI18n, I18nProvider, I18nStore, observer, translatable } from 'react-mobx-i18next'
 import { makeAutoObservable } from 'mobx'
 
 // Initialize i18n
@@ -40,7 +40,7 @@ class Hello extends React.Component<any> {
       <div> 
       <p>{ this.props.t('common:hello', { this.props.name }) } </p> 
       <button onClick = { this.props.onInc } > + { this.props.count } </button> 
-      <button onClick = {() => this.i18nStore.setLocale('zh')}> Chinese </button>
+      <button onClick = {() => this.i18nStore.setLocale('zh')}> CN </button>
       <button onClick = {() => this.i18nStore.setLocale('en')}> EN </button> 
     </div> 
     )
@@ -59,7 +59,8 @@ const counter = new CounterStore()
 function App() { 
   return ( 
     <I18nProvider i18n={i18n}> 
-    <CounterView name="Chris" count={counter.count} onInc={counter.inc} /> </I18nProvider>
+      <CounterView name="Chris" count={counter.count} onInc={counter.inc} />
+    </I18nProvider>
   )
 }
 createRoot(document.getElementById('root')!).render(<App />)
