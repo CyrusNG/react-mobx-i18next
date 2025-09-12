@@ -1,13 +1,13 @@
 # react-mobx-i18next
 
-使用 mobx + mobx-react-lite + i18next + react-i18next 完全替代 `react-mobx-i18n`。
+Use mobx + mobx-react-lite + i18next + react-i18next to completely replace `react-mobx-i18n` that is incompatible with react17+.
 
-## 安装
+## Install
 
 ```bash
-npm i react-mobx-i18next i18next react-i18next mobx mobx-react-lite
+npm i react-mobx-i18next
 # or
-pnpm add react-mobx-i18next i18next react-i18next mobx mobx-react-lite
+pnpm add react-mobx-i18next
 ```
 
 ## Example
@@ -17,20 +17,37 @@ import { createRoot } from 'react-dom/client'
 import { createI18n, I18nProvider, I18nStore, observer, withTranslatable } from 'react-mobx-i18next'
 import { makeAutoObservable } from 'mobx'
 
-// 1) 初始化 i18n
-const i18n = createI18n({
-  lng: 'en',
-  fallbackLng: 'en',
+// Initialize i18n
+const i18n = createI18n({ 
+  lng: 'en', 
+  fallbackLng: 'en', 
   resources: {
     en: { common: { hello: 'Hello, {{name}}!' } },
-    zh: { common: { hello: '你好，{{name}}！' } },
-  },
+    zh: { common: { hello: 'Hello, {{name}}!' } },
+  }
 })
 
-// 2) 建立 MobX 语言 store
-const i18nStore = new I18nStore(i18n)
+// Inject tranlatable into react component
+@observer
+@translatable('common')
+class Hello extends React.Component<any> {
+  constructor {
+    this.i18nStore = new I18nStore(i18n)   // Create a MobX language store
+  }
 
-// 3) 业务 store 示例
+  render() {
+    return (
+      <div> 
+      <p>{ this.props.t('common:hello', { this.props.name }) } </p> 
+      <button onClick = { this.props.onInc } > + { this.props.count } </button> 
+      <button onClick = {() => this.i18nStore.setLocale('zh')}> Chinese </button>
+      <button onClick = {() => this.i18nStore.setLocale('en')}> EN </button> 
+    </div> 
+    )
+  }
+}
+
+// Business store example
 class CounterStore {
   count = 0
   constructor() { makeAutoObservable(this) }
@@ -38,30 +55,28 @@ class CounterStore {
 }
 const counter = new CounterStore()
 
-// 4) 组件：函数式 + HOC 注入 t
-const CounterViewBase: React.FC<{ name: string; count: number; onInc: () => void } & { t: any }> = ({ name, count, onInc, t }) => {
-  return (
-    <div>
-      <p>{ t('common:hello', { name }) } </p>
-      <button onClick = { onInc } > + { count } </button>
-      <button onClick = {() => i18nStore.setLocale('zh')}> 中文 </button>
-      <button onClick = {() => i18nStore.setLocale('en')}> EN </button>
-    </div>
+// Boot react app
+function App() { 
+  return ( 
+    <I18nProvider i18n={i18n}> 
+    <CounterView name="Chris" count={counter.count} onInc={counter.inc} /> </I18nProvider>
   )
 }
-const CounterView = observer(withTranslatable(['common'])(CounterViewBase))
-
-function App() {
-  return (
-    <I18nProvider i18n={i18n}>
-      <CounterView name="Cyrus" count={counter.count} onInc={counter.inc} />
-    </I18nProvider>
-)
-}
-
 createRoot(document.getElementById('root')!).render(<App />)
 ```
 
+
+## HOC
+```javascript
+import React from 'react'
+import { observer, withTranslatable } from 'react-mobx-i18next'
+
+const Hello: React.FC<{ t: any }> = ({ t }) => {
+  return <h1>{ t('hello', { name: 'World' }) } </h1>
+}
+
+const HelloWithTranslatable = observer(withTranslatable(['common'])(Hello)
+```
 
 ## Hook Usage
 ```javascript
@@ -74,25 +89,25 @@ const Hello = observer(() => {
 })
 ```
 
-## 类装饰器 @Translatable()
-注：mobx-react-lite 主打函数组件；此装饰器用于兼容已有类组件代码。
+## Class Decorator
+Note: mobx-react-lite primarily features function components; this decorator is provided for compatibility with existing class component code.
 
 ```javascript
 import React from 'react'
-import { Translatable, observer } from 'react-mobx-i18next'
+import { translatable, observer } from 'react-mobx-i18next'
 
 @observer
-@Translatable('common')
-class HelloCls extends React.Component<any> {
+@translatable('common')
+class Hello extends React.Component<any> {
   render() {
-    const { t } = (this.props as any) // t 被注入到 props
-    return <h1>{ t('hello', { name: 'Class' }) } </h1>
+    return <h1>{ this.props.t('hello', { name: 'Class' }) }</h1>
   }
 }
 ```
 
-
-## 与 react-mobx-i18n 的对照
-@translatable() → @Translatable()（类组件）或 withTranslatable()（HOC）或 useTranslatable()（Hook）
-t() 行为：由 react-i18next 提供，支持 ns:key 或通过 ns 选项配置
-语言切换：调用 i18nStore.setLocale(lng)，会触发 i18next 切换并响应式更新组件
+## Comparison with react-mobx-i18n
+* class component: @translatable → @translatable()
+* HOC: withTranslatable()
+* Hook: useTranslatable()
+* t() Behavior: Provided by react-i18next, supports ns:key or configurable via the ns option
+* Language Switching: Call i18nStore.setLocale(lng) will trigger i18next switching and responsively update components
