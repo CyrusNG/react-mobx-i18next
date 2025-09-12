@@ -2,8 +2,8 @@ import i18next, { i18n } from 'i18next'
 import { initReactI18next } from 'react-i18next'
 
 export interface CreateI18nOptions {
-  lng?: string
-  fallbackLng?: string | string[]
+  lang?: string
+  fallbackLang?: string | string[]
   resources?: any
   debug?: boolean
 }
@@ -11,8 +11,8 @@ export interface CreateI18nOptions {
 /** Create and init a configured i18n instance. */
 export function createI18n(opts: CreateI18nOptions = {}): i18n {
   const {
-    lng = 'en',
-    fallbackLng = 'en',
+    lang = 'en',
+    fallbackLang = lang,
     resources,
     debug = false,
   } = opts
@@ -22,8 +22,8 @@ export function createI18n(opts: CreateI18nOptions = {}): i18n {
   instance
     .use(initReactI18next)
     .init({
-      lng,
-      fallbackLng,
+      lng: lang,
+      fallbackLng: fallbackLang,
       resources,
       interpolation: { escapeValue: false },
       debug,

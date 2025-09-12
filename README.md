@@ -19,8 +19,8 @@ import { makeAutoObservable } from 'mobx'
 
 // Initialize i18n
 const i18n = createI18n({ 
-  lng: 'en', 
-  fallbackLng: 'en', 
+  lang: 'en', 
+  fallbackLang: 'en', 
   resources: {
     en: { common: { hello: 'Hello, {{name}}!' } },
     zh: { common: { hello: 'Hello, {{name}}!' } },
@@ -110,4 +110,4 @@ class Hello extends React.Component<any> {
 * HOC: withTranslatable()
 * Hook: useTranslatable()
 * t() Behavior: Provided by react-i18next, supports ns:key or configurable via the ns option
-* Language Switching: Call i18nStore.setLocale(lng) will trigger i18next switching and responsively update components
+* Language Switching: Call i18nStore.setLocale(lang) will trigger i18next switching and responsively update components
