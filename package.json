@@ -14,15 +14,18 @@
     "hook"
   ],
   "license": "MIT",
-  "author": "wu.cyrus@gmail.com",
+  "author": "Cyrus NG",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your/repo.git"
+    "url": "https://github.com/CyrusNG/react-mobx-i18next.git"
   },
   "bugs": {
-    "url": "https://github.com/your/repo/issues"
+    "url": "https://github.com/CyrusNG/react-mobx-i18next/issues"
   },
-  "homepage": "https://github.com/your/repo#readme",
+  "homepage": "https://github.com/CyrusNG/react-mobx-i18next#readme",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
