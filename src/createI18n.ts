@@ -9,7 +9,7 @@ export interface CreateI18nOptions {
 }
 
 /** Create and init a configured i18n instance. */
-export function createI18n(opts: CreateI18nOptions = {}): i18n {
+export function createI18n(opts: CreateI18nOptions = {}): Promise<i18n> {
   const {
     lang = 'en',
     fallbackLang = lang,
@@ -19,7 +19,7 @@ export function createI18n(opts: CreateI18nOptions = {}): i18n {
 
   const instance = i18next.createInstance()
 
-  instance
+  return instance
     .use(initReactI18next)
     .init({
       lng: lang,
@@ -28,7 +28,7 @@ export function createI18n(opts: CreateI18nOptions = {}): i18n {
       interpolation: { escapeValue: false },
       debug,
       returnNull: false,
-    })
+    }).then(() => instance)
 
-  return instance
+  // return instance
 }
