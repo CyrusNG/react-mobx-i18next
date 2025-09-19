@@ -9,4 +9,12 @@ export default defineConfig({
   minify: false,
   target: 'es2020',
   splitting: false,
+  external: [
+    'react',
+    'react-dom',
+    'i18next',
+    'react-i18next',
+    'mobx',
+    'mobx-react-lite'
+  ]
 })

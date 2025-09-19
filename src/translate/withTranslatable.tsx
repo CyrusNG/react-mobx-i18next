@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTranslatable } from '../hooks/useTranslatable'
 import type { NamespaceOption, TranslatableOptions } from '../types'
 

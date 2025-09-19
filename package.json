@@ -43,16 +43,20 @@
     "prepublishOnly": "npm run build && npm run typecheck"
   },
   "peerDependencies": {
-    "i18next": ">=23",
-    "mobx": ">=6",
-    "mobx-react-lite": ">=4",
     "react": ">=17",
     "react-dom": ">=17",
-    "react-i18next": ">=15"
+    "i18next": ">=23",
+    "react-i18next": ">=15",
+    "mobx": ">=6",
+    "mobx-react-lite": ">=4"
   },
   "devDependencies": {
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-i18next": "^15.7.3",
+    "i18next": "^25.4.1",
     "rimraf": "^6.0.0",
     "ts-node": "^10.9.2",
     "tsup": "^8.0.0",
