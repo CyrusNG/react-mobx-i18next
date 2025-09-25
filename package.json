@@ -1,6 +1,6 @@
 {
   "name": "react-mobx-i18next",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "A tiny i18n utility for MobX + React (mobx-react-lite) that replaces react-mobx-i18n. Includes @translatable decorator, withTranslatable HOC, and useTranslatable hook.",
   "keywords": [
     "mobx",
@@ -55,8 +55,8 @@
     "@types/react-dom": "^18.3.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-i18next": "^15.7.3",
     "i18next": "^25.4.1",
+    "react-i18next": "^15.7.3",
     "rimraf": "^6.0.0",
     "ts-node": "^10.9.2",
     "tsup": "^8.0.0",

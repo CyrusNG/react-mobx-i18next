@@ -5,7 +5,9 @@ Use mobx + mobx-react-lite + i18next + react-i18next to completely replace `reac
 ## Install
 
 ```bash
-npm i react-mobx-i18next
+npm i react-mobx-i18next                                       # this project
+npm react react-dom i18next react-i18next mobx mobx-react-lite # required peer dependencies
+
 # or
 pnpm add react-mobx-i18next
 ```
@@ -58,7 +60,7 @@ const counter = new CounterStore()
 // Boot react app
 function App() { 
   return ( 
-    <I18nProvider i18n={i18n}> 
+    <I18nProvider i18n={i18n}>
       <CounterView name="Chris" count={counter.count} onInc={counter.inc} />
     </I18nProvider>
   )
@@ -111,4 +113,5 @@ class Hello extends React.Component<any> {
 * HOC: withTranslatable()
 * Hook: useTranslatable()
 * t() Behavior: Provided by react-i18next, supports ns:key or configurable via the ns option
+* I18nProvider: (Optional) When to use? You will need to use the provider if you need to support multiple i18next instances, otherwise no need it.
 * Language Switching: Call i18nStore.setLocale(lang) will trigger i18next switching and responsively update components

@@ -8,7 +8,7 @@ export interface TranslatableHookResult {
   ready: boolean
 }
 
-export function useTranslatable(ns?: NamespaceOption, options?: TranslatableOptions): TranslatableHookResult {
+export function hookTranslatable(ns?: NamespaceOption, options?: TranslatableOptions): TranslatableHookResult {
   const { i18n, t, ready } = useTranslation(ns, { useSuspense: false, ...options })
   // expose identical shape to react-mobx-i18n expectations (t, i18n, ready)
   return useMemo(() => ({ t, i18n, ready }), [t, i18n, ready])
