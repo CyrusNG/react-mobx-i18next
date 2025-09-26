@@ -1,15 +1,11 @@
-import { useTranslation, UseTranslationResponse } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { useMemo } from 'react'
-import type { NamespaceOption, TranslatableOptions } from '../types'
+import type { NamespaceOption, TranslatableOptions, TranslatableHookResult } from '../types'
 
-export interface TranslatableHookResult {
-  t: (key: string, options?: any) => string
-  i18n: any
-  ready: boolean
-}
-
+/**
+* Hook: Function component uses const { t } = hookTranslatable('ns')
+*/
 export function hookTranslatable(ns?: NamespaceOption, options?: TranslatableOptions): TranslatableHookResult {
-  const { i18n, t, ready } = useTranslation(ns, { useSuspense: false, ...options })
-  // expose identical shape to react-mobx-i18n expectations (t, i18n, ready)
+  const { t, i18n, ready } = useTranslation(ns, { useSuspense: false, ...options })
   return useMemo(() => ({ t, i18n, ready }), [t, i18n, ready])
 }

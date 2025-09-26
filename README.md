@@ -69,7 +69,7 @@ createRoot(document.getElementById('root')!).render(<App />)
 ```
 
 
-## HOC
+## React Function Component - HOC
 ```javascript
 import React from 'react'
 import { observer, withTranslatable } from 'react-mobx-i18next'
@@ -81,7 +81,7 @@ const Hello: React.FC<{ t: any }> = ({ t }) => {
 const HelloWithTranslatable = observer(withTranslatable(['common'])(Hello)
 ```
 
-## Hook Usage
+## React Function Component - Hook
 ```javascript
 import React from 'react'
 import { observer, useTranslatable } from 'react-mobx-i18next'
@@ -103,7 +103,7 @@ import { translatable, observer } from 'react-mobx-i18next'
 @translatable('common')
 class Hello extends React.Component<any> {
   render() {
-    return <h1>{ this.props.t('hello', { name: 'Class' }) }</h1>
+    return <h1>{ this.context.t('hello', { name: 'Class' }) }</h1>
   }
 }
 ```
