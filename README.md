@@ -40,7 +40,7 @@ class Hello extends React.Component<any> {
   render() {
     return (
       <div> 
-      <p>{ this.props.t('common:hello', { this.props.name }) } </p> 
+      <p>{ this.context.t('common:hello', { this.props.name }) } </p> 
       <button onClick = { this.props.onInc } > + { this.props.count } </button> 
       <button onClick = {() => this.i18nStore.setLocale('zh')}> CN </button>
       <button onClick = {() => this.i18nStore.setLocale('en')}> EN </button> 
@@ -69,30 +69,32 @@ createRoot(document.getElementById('root')!).render(<App />)
 ```
 
 
+## React Function Component - Hook
+```javascript
+import React from 'react'
+import { useTranslatable, TranslatableContext, observer } from 'react-mobx-i18next'
+
+const Hello = observer(() => {
+  const { context } = useTranslatable(TranslatableContext)
+  return <h1>{ context.t('hello', { name: 'World' }) } </h1>
+})
+```
+
+
 ## React Function Component - HOC
 ```javascript
 import React from 'react'
 import { observer, withTranslatable } from 'react-mobx-i18next'
 
-const Hello: React.FC<{ t: any }> = ({ t }) => {
-  return <h1>{ t('hello', { name: 'World' }) } </h1>
+const Hello: React.FC<{ t: any }> = ({ context }) => {
+  return <h1>{ context.t('hello', { name: 'World' }) } </h1>
 }
 
-const HelloWithTranslatable = observer(withTranslatable(['common'])(Hello)
+const HelloWithTranslatable = observer(withTranslatable('common')(Hello)
 ```
 
-## React Function Component - Hook
-```javascript
-import React from 'react'
-import { observer, useTranslatable } from 'react-mobx-i18next'
 
-const Hello = observer(() => {
-  const { t } = useTranslatable('common')
-  return <h1>{ t('hello', { name: 'World' }) } </h1>
-})
-```
-
-## Class Decorator
+## React Class Component - Class Decorator
 Note: mobx-react-lite primarily features function components; this decorator is provided for compatibility with existing class component code.
 
 ```javascript
@@ -107,6 +109,26 @@ class Hello extends React.Component<any> {
   }
 }
 ```
+
+
+## React Class Component - HOC
+```javascript
+import React from 'react'
+import { withTranslatable, TranslatableContext, observer } from 'react-mobx-i18next'
+
+@observer
+@translatable('common')
+class Hello extends React.Component<any> {
+  static contextType = TranslatableContext
+  render() {
+    return <h1>{ this.context.t('hello', { name: 'Class' }) }</h1>
+  }
+}
+
+export default withTranslatable('common')(Hello)
+```
+
+
 
 ## Comparison with react-mobx-i18n
 * class component: @translatable → @translatable()

@@ -1,11 +1,20 @@
+import { useMemo, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useMemo } from 'react'
-import type { NamespaceOption, TranslatableOptions, TranslatableHookResult } from '../types'
+import { TranslatableContext } from '../context/translatableContext'
+import type { NamespaceOption, TranslatableOptions, TranslatableInContext } from '../types'
+
 
 /**
-* Hook: Function component uses const { t } = hookTranslatable('ns')
-*/
-export function hookTranslatable(ns?: NamespaceOption, options?: TranslatableOptions): TranslatableHookResult {
-  const { t, i18n, ready } = useTranslation(ns, { useSuspense: false, ...options })
-  return useMemo(() => ({ t, i18n, ready }), [t, i18n, ready])
+ * Hook for initializing translations.
+ * Usage in function component:
+ * const Hello = observer(() => {
+ *   const { context } = useTranslatable('common')
+ *   return <h1>{ context.t('hello', { name: 'World' }) } </h1>
+ * })
+ */
+export function hookTranslatable(ns?: NamespaceOption, options?: TranslatableOptions): TranslatableInContext {
+  const { i18n, t, ready } = useTranslation(ns, { useSuspense: false, ...options })
+  const value = useMemo(() => ({ t, i18n, ready }), [t, i18n, ready])
+  // const outer = useContext(TranslatableContext)
+  return { context: value }
 }

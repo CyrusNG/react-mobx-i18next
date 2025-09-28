@@ -1,4 +1,4 @@
-import { withTranslation, WithTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 /**
 * Namespace parameter, can be a single string or string array
@@ -18,14 +18,12 @@ export type TranslatableOptions = WithTranslationOptionsFromLib & {
   keyPrefix?: string
 }
 
-/**
-* Fields injected into props by HOC
-*/
-export type InjectedTransProps = WithTranslation & {
-  ready: boolean
+
+export type TranslatableInContext = {
+  context: TranslatableContent
 }
 
-export type TranslatableHookResult = {
+export type TranslatableContent = {
   t: (key: string, options?: any) => string
   i18n: any
   ready: boolean
