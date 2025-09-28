@@ -72,31 +72,15 @@ createRoot(document.getElementById('root')!).render(<App />)
 ## React Function Component - Hook
 ```javascript
 import React from 'react'
-import { useTranslatable, TranslatableContext, observer } from 'react-mobx-i18next'
+import { observer, useTranslatable, TranslatableContext } from 'react-mobx-i18next'
 
 const Hello = observer(() => {
-  const { context } = useTranslatable(TranslatableContext)
+  const { context } = useTranslatable('common')
   return <h1>{ context.t('hello', { name: 'World' }) } </h1>
 })
 ```
 
-
-## React Function Component - HOC
-```javascript
-import React from 'react'
-import { observer, withTranslatable } from 'react-mobx-i18next'
-
-const Hello: React.FC<{ t: any }> = ({ context }) => {
-  return <h1>{ context.t('hello', { name: 'World' }) } </h1>
-}
-
-const HelloWithTranslatable = observer(withTranslatable('common')(Hello)
-```
-
-
-## React Class Component - Class Decorator
-Note: mobx-react-lite primarily features function components; this decorator is provided for compatibility with existing class component code.
-
+## React Class Component - Decorator
 ```javascript
 import React from 'react'
 import { translatable, observer } from 'react-mobx-i18next'
@@ -110,22 +94,35 @@ class Hello extends React.Component<any> {
 }
 ```
 
+## HOC
+Note: if you use HOC, you need one more step that defines context manually.
 
-## React Class Component - HOC
+### Function Component's HOC
 ```javascript
 import React from 'react'
-import { withTranslatable, TranslatableContext, observer } from 'react-mobx-i18next'
+import { observer, withTranslatable, TranslatableContext } from 'react-mobx-i18next'
 
-@observer
-@translatable('common')
+const Hello: React.FC<{ t: any }> = ({}) => {
+  const { context } = useContext(TranslatableContext) // define context here
+  return <h1>{ context.t('hello', { name: 'World' }) } </h1>
+}
+
+const HelloWithTranslatable = observer(withTranslatable('common')(Hello))
+```
+
+### Class Component's HOC
+```javascript
+import React from 'react'
+import { observer, withTranslatable, TranslatableContext } from 'react-mobx-i18next'
+
 class Hello extends React.Component<any> {
-  static contextType = TranslatableContext
+  static contextType = TranslatableContext  // define context here
   render() {
     return <h1>{ this.context.t('hello', { name: 'Class' }) }</h1>
   }
 }
 
-export default withTranslatable('common')(Hello)
+export default observer(withTranslatable('common')(Hello))
 ```
 
 
@@ -134,6 +131,6 @@ export default withTranslatable('common')(Hello)
 * class component: @translatable → @translatable()
 * HOC: withTranslatable()
 * Hook: useTranslatable()
-* t() Behavior: Provided by react-i18next, supports ns:key or configurable via the ns option
+* t() Behavior: this.props.t(...) → this.context.t(...), Provided by react-i18next, supports ns:key or configurable via the ns option
 * I18nProvider: (Optional) When to use? You will need to use the provider if you need to support multiple i18next instances, otherwise no need it.
 * Language Switching: Call i18nStore.setLocale(lang) will trigger i18next switching and responsively update components
