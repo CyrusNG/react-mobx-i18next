@@ -16,7 +16,7 @@ pnpm add react-mobx-i18next
 ```javascript
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import { createI18n, I18nProvider, I18nStore, observer, translatable } from 'react-mobx-i18next'
+import { createI18n, I18nProvider, I18nStore, observer, translatable, context, TranslatableContext } from 'react-mobx-i18next'
 import { makeAutoObservable } from 'mobx'
 
 // Initialize i18n
@@ -32,6 +32,7 @@ const i18n = createI18n({
 // Inject tranlatable into react component
 @observer
 @translatable('common')
+@context(TranslatableContext)
 class Hello extends React.Component<any> {
   constructor {
     this.i18nStore = new I18nStore(i18n)   // Create a MobX language store
@@ -69,24 +70,15 @@ createRoot(document.getElementById('root')!).render(<App />)
 ```
 
 
-## React Function Component - Hook
+## React Class Component
+### (RECOMMENDED) translatable + context decorator
 ```javascript
 import React from 'react'
-import { observer, useTranslatable, TranslatableContext } from 'react-mobx-i18next'
-
-const Hello = observer(() => {
-  const { context } = useTranslatable('common')
-  return <h1>{ context.t('hello', { name: 'World' }) } </h1>
-})
-```
-
-## React Class Component - Decorator
-```javascript
-import React from 'react'
-import { translatable, observer } from 'react-mobx-i18next'
+import { observer, translatable, context, TranslatableContext } from 'react-mobx-i18next'
 
 @observer
 @translatable('common')
+@context(TranslatableContext) // merge contexts and set contextType here
 class Hello extends React.Component<any> {
   render() {
     return <h1>{ this.context.t('hello', { name: 'Class' }) }</h1>
@@ -94,29 +86,58 @@ class Hello extends React.Component<any> {
 }
 ```
 
+### (OPTIONAL) translatable Decorator ONLY
+Note: This way is NOT applicable for case that need multi contexts.
+```javascript
+import React from 'react'
+import { observer, translatable, TranslatableContext } from 'react-mobx-i18next'
+
+@observer
+@translatable('common')
+class Hello extends React.Component<any> {
+  static contextType = TranslatableContext // set contextType here
+  render() {
+    return <h1>{ this.context.t('hello', { name: 'Class' }) }</h1>
+  }
+}
+```
+
+## React Function Component
+### Hook
+```javascript
+import React from 'react'
+import { observer, useTranslatable } from 'react-mobx-i18next'
+
+const Hello = observer((props) => {
+  const { i18n, t, ready } = useTranslatable('common')
+  return <h1>{ t('hello', { name: 'World' }) } </h1>
+})
+```
+
+
 ## HOC
-Note: if you use HOC, you need one more step that defines context manually.
 
 ### Function Component's HOC
 ```javascript
 import React from 'react'
 import { observer, withTranslatable, TranslatableContext } from 'react-mobx-i18next'
 
-const Hello: React.FC<{ t: any }> = ({}) => {
-  const { context } = useContext(TranslatableContext) // define context here
-  return <h1>{ context.t('hello', { name: 'World' }) } </h1>
+const Hello: React.FC<{ t: any }> = (props) => {
+  const { i18n, t, ready } = useContext(TranslatableContext) // get context here
+  return <h1>{ t('hello', { name: 'World' }) } </h1>
 }
 
 const HelloWithTranslatable = observer(withTranslatable('common')(Hello))
 ```
 
 ### Class Component's HOC
+Note: This way is NOT applicable for case that need multi contexts.
 ```javascript
 import React from 'react'
 import { observer, withTranslatable, TranslatableContext } from 'react-mobx-i18next'
 
 class Hello extends React.Component<any> {
-  static contextType = TranslatableContext  // define context here
+  static contextType = TranslatableContext  // set contextType here
   render() {
     return <h1>{ this.context.t('hello', { name: 'Class' }) }</h1>
   }
@@ -131,6 +152,6 @@ export default observer(withTranslatable('common')(Hello))
 * class component: @translatable → @translatable()
 * HOC: withTranslatable()
 * Hook: useTranslatable()
-* t() Behavior: this.props.t(...) → this.context.t(...), Provided by react-i18next, supports ns:key or configurable via the ns option
+* t() Behavior: this.t(...) → this.context.t(...), Provided by react-i18next, supports ns:key or configurable via the ns option
 * I18nProvider: (Optional) When to use? You will need to use the provider if you need to support multiple i18next instances, otherwise no need it.
 * Language Switching: Call i18nStore.setLocale(lang) will trigger i18next switching and responsively update components

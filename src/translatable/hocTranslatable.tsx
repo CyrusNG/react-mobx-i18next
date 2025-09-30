@@ -8,35 +8,33 @@ import type { NamespaceOption, TranslatableOptions } from '../types'
  * Class HOC for translations.
 
  * Usage for Class Component:
- *   class MyClassComp extends React.Component {
+ *   class App extends React.Component {
  *     static contextType = TranslatableContext
  *     render() {
  *       return <div>{this.context.t('hello')}</div>
  *     }
  *   }
- *  export default hocTranslatable('common')(MyClassComp)
+ *  export default observer(withTranslatable('common')(App))
  * 
  * Usage for Function Component:
- * const MyFuncComp: React.FC = () => {
- *   const { context } = useContext(TranslatableContext)
- *   return <div>{context.t('hello')}</div>
+ * const App: React.FC = (props) => {
+ *   const  { i18n, t, ready } = useContext(TranslatableContext)
+ *   return <div>{t('hello')}</div>
  * }
- * export default hocTranslatable('common')(MyFuncComp)
+ * export default observer(withTranslatable('common')(App))
  */
 export const hocTranslatable = (ns?: NamespaceOption, options?: TranslatableOptions) =>
   <P extends object>(Component: React.ComponentType<P>): React.FC<P> => {
+    // HOC that inject translatable context
     const Wrapped: React.FC<P> = (props) => {
-      // get context value from hook
-      const { context: value } = hookTranslatable(ns, options)
-      // wrap by Context Provider intead of pass props
       return (
-        <TranslatableContext.Provider value={value}>
+        <TranslatableContext.Provider value={hookTranslatable(ns, options)}>
           <Component {...props} />
         </TranslatableContext.Provider>
       )
     }
-
+    // rename display name for debug
     Wrapped.displayName = `hocTranslatable(${Component.displayName || Component.name || 'Component'})`
-
+    // return HOC
     return Wrapped
   }

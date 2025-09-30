@@ -18,11 +18,6 @@ export type TranslatableOptions = WithTranslationOptionsFromLib & {
   keyPrefix?: string
 }
 
-
-export type TranslatableInContext = {
-  context: TranslatableContent
-}
-
 export type TranslatableContent = {
   t: (key: string, options?: any) => string
   i18n: any
