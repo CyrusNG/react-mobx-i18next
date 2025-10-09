@@ -1,7 +1,6 @@
 import React from 'react'
-import { hookTranslatable } from './hookTranslatable'
-import { TranslatableContext } from '../context/translatableContext'
-import type { NamespaceOption, TranslatableOptions } from '../types'
+import { TranslatableContext } from './translatableContext'
+import type { NamespaceOption, TranslatableOptions, TranslatableValue } from '../types'
 
 
 /*
@@ -9,7 +8,6 @@ import type { NamespaceOption, TranslatableOptions } from '../types'
 
  * Usage for Class Component:
  *   class App extends React.Component {
- *     static contextType = TranslatableContext
  *     render() {
  *       return <div>{this.context.t('hello')}</div>
  *     }
@@ -27,10 +25,17 @@ export const hocTranslatable = (ns?: NamespaceOption, options?: TranslatableOpti
   <P extends object>(Component: React.ComponentType<P>): React.FC<P> => {
     // HOC that inject translatable context
     const Wrapped: React.FC<P> = (props) => {
+      // Get or create translatable context for given ns/options
+      const TransContext = TranslatableContext(ns, options);
+      // Get value of translatable context
+      const value = React.useContext(TransContext);
+      // Set translatable context as contextType for Target
+      (Component as any).contextType = TransContext;
+      // provide translatable context to Component
       return (
-        <TranslatableContext.Provider value={hookTranslatable(ns, options)}>
+        <TransContext.Provider value={value}>
           <Component {...props} />
-        </TranslatableContext.Provider>
+        </TransContext.Provider>
       )
     }
     // rename display name for debug

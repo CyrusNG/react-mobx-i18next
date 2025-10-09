@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { NamespaceOption, TranslatableOptions, TranslatableContent } from '../types'
+import type { NamespaceOption, TranslatableOptions, TranslatableValue } from '../types'
 
 
 /**
@@ -11,7 +11,7 @@ import type { NamespaceOption, TranslatableOptions, TranslatableContent } from '
  *   return <h1>{ t('hello', { name: 'World' }) } </h1>
  * })
  */
-export function hookTranslatable(ns?: NamespaceOption, options?: TranslatableOptions): TranslatableContent {
+export function hookTranslatable(ns?: NamespaceOption, options?: TranslatableOptions): TranslatableValue {
   // get translation related from react-i18next api
   const { i18n, t, ready } = useTranslation(ns, { useSuspense: false, ...options })
   // use memo to avoid unnecessary re-render

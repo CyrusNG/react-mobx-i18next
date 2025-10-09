@@ -18,8 +18,11 @@ export type TranslatableOptions = WithTranslationOptionsFromLib & {
   keyPrefix?: string
 }
 
-export type TranslatableContent = {
+export type TranslatableValue = {
   t: (key: string, options?: any) => string
   i18n: any
   ready: boolean
 }
+
+
+export type HubsContexts = | React.Context<any> | React.Context<any>[] | (() => React.Context<any>)

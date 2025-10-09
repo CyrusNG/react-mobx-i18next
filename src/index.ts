@@ -1,10 +1,11 @@
 export { observer } from 'mobx-react-lite'
 
 export * from './init/createI18n'
-export * from './context/translatableContext'
+export * from './translatable/translatableContext'
 export * from './provider/I18nProvider'
 export * from './store/I18nStore'
-export { contextMerger as context } from './context/contextMerger'
+export * from './context/contextHelper'
+export * from './translatable/translatableContext'
 export { decoratorTranslatable as translatable } from './translatable/decoratorTranslatable'
 export { hocTranslatable as withTranslatable } from './translatable/hocTranslatable'
 export { hookTranslatable as useTranslatable } from './translatable/hookTranslatable'
