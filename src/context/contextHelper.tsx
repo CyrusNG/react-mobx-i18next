@@ -46,8 +46,8 @@ export function contextHubs(...inputs: HubsContexts[]): ClassDecorator {
 /**
  * Class decorator for setting MergedContext as contextType.
  * Usage:
- *   @observer
  *   @contextInjector()
+ *   @observer
  *   class App extends React.Component {...}
  */
 export function contextInjector(): ClassDecorator {

@@ -2,15 +2,15 @@ import { hocTranslatable } from './hocTranslatable'
 import type { NamespaceOption, TranslatableOptions } from '../types'
 
 /*
- * Class decorator for translations.
- * Usage:
- *   @observer
- *   @decoratorTranslatable('common')
+ * Usage - ONLY Class Component:
+ *   @translatable('common')
+ *   @obeserver
  *   class App extends React.Component {
  *     render() {
- *       return <div>{this.context.t('hello')}</div>
+ *       return <div>{this.t('hello')}</div>
  *     }
  *   }
+ *  export default App
  */
 export function decoratorTranslatable(ns?: NamespaceOption, options?: TranslatableOptions): ClassDecorator {
   return function (Target: any): any {
