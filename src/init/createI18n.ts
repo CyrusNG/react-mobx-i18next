@@ -1,7 +1,7 @@
 import i18next, { i18n } from 'i18next'
 import { initReactI18next } from 'react-i18next'
 
-let i18nInstance: i18n | null = null
+let i18nInst: i18n | null = null
 
 export interface CreateI18nOptions {
   lang?: string
@@ -12,7 +12,8 @@ export interface CreateI18nOptions {
 
 /** Initialize a singleton i18n instance for the app. */
 export async function initI18n(opts: CreateI18nOptions = {}): Promise<i18n> {
-  if (i18nInstance) return i18nInstance
+  
+  if (i18nInst) return i18nInst
 
   const {
     lang = 'en',
@@ -21,9 +22,9 @@ export async function initI18n(opts: CreateI18nOptions = {}): Promise<i18n> {
     debug = false,
   } = opts
 
-  const instance = i18next.createInstance()
+  i18nInst = i18next.createInstance()
 
-  await instance
+  await i18nInst
     .use(initReactI18next)
     .init({
       lng: lang,
@@ -34,16 +35,15 @@ export async function initI18n(opts: CreateI18nOptions = {}): Promise<i18n> {
       returnNull: false,
     })
 
-  i18nInstance = instance
-  return i18nInstance
+  return i18nInst
 }
 
 /** Return the initialized singleton instance. */
 export function getI18n(): i18n {
-  if (!i18nInstance) {
+  if (!i18nInst) {
     throw new Error('i18n is not initialized. Call initI18n() first.')
   }
 
-  return i18nInstance
+  return i18nInst
 }
 
