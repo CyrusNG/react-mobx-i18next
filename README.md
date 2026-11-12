@@ -22,10 +22,10 @@ import { createRoot } from 'react-dom/client'
 import { configure, makeAutoObservable } from 'mobx'
 import { observer, Provider } from 'mobx-react'
 import { UNSAFE_NavigationContext, UNSAFE_LocationContext } from 'react-router-dom'
-import { initI18n, getI18n, I18nStore, translatable, contextHubs, TranslatableContext } from 'react-mobx-i18next'
+import { initI18n, I18nStore, translatable, contextHubs, TranslatableContext } from 'react-mobx-i18next'
 
 // Initialize singleton i18n once for the whole app
-await initI18n({
+const i18n = await initI18n({
   lang: 'en',
   fallbackLang: 'en',
   resources: {
@@ -33,9 +33,6 @@ await initI18n({
     zh: { common: { hello: 'Hello, {{name}}!' } },
   },
 })
-
-// Get the same instance anywhere else
-const i18n = getI18n()
 
 // Config MobX (if need)
 configure({ enforceActions: "always" });
@@ -135,7 +132,7 @@ const Hello = observer((props) => {
 This library also allows you to use the shared i18n instance outside React components.
 
 ```javascript
-import { initI18n, getI18n } from 'react-mobx-i18next'
+import { initI18n, I18n } from 'react-mobx-i18next'
 
 await initI18n({
   lang: 'zh',
@@ -146,8 +143,7 @@ await initI18n({
   },
 })
 
-const i18n = getI18n()
-console.log(i18n.t('common:hello', { name: 'Chris' }))
+console.log(I18n.t('common:hello', { name: 'Chris' }))
 // => 你好，Chris！
 ```
 
