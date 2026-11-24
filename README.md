@@ -51,11 +51,12 @@ class CounterStore {
 class CounterView extends React.Component<any> {
   render() {
     return (
-      <div> 
+    <div> 
+
+      {/* Call translate function */}
       <p>{ this.context.t('common:hello', { this.props.name }) } </p> 
-      <button onClick = { this.props.counterStore.onInc } > + { this.props.counterStore.count } </button> 
-      <button onClick = {() => this.props.i18nStore.setLocale('zh')}> CN </button>
-      <button onClick = {() => this.props.i18nStore.setLocale('en')}> EN </button> 
+      <button onClick = { this.props.counterStore.onInc } > + { this.props.counterStore.count } </button>
+      
     </div> 
     )
   }
@@ -145,6 +146,22 @@ await initI18n({
 
 console.log(I18n.t('common:hello', { name: 'Chris' }))
 // => 你好，Chris！
+```
+
+## Get and Change Language
+
+### Method 1: Context
+```javascript
+    <p>{ this.context.t('common:currentLanguage', { this.context.i18n.language }) } </p>
+    <button onClick = {() => this.context.i18n.changeLanguage('zh')}> CN </button>
+    <button onClick = {() => this.context.i18n.changeLanguage('en_US')}> EN </button>
+```
+
+### Method 2: i18nStore
+```javascript
+    <p>{ this.context.t('common:currentLanguage', { this.props.i18nStore.locale }) } </p> 
+    <button onClick = {() => this.props.i18nStore.setLocale('zh')}> CN </button>
+    <button onClick = {() => this.props.i18nStore.setLocale('en_US')}> EN </button>
 ```
 
 ## Comparison with react-mobx-i18n
